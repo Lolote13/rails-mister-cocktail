@@ -1,6 +1,8 @@
 <div class="container">
   <h1><%= @cocktail.name.capitalize %></h1>
-  <%= cl_image_tag @cocktail.photo, height: 300, width: 400, crop: :fill %>
+  <% if !@cocktail[:photo].nil? %>
+    <%= cl_image_tag @cocktail.photo, height: 300, width: 400, crop: :fill %>
+  <% end %>
 
   <ul class="list-group">
     <% @cocktail.doses.each do |dose| %>
@@ -10,26 +12,6 @@
       </li>
     <% end %>
   </ul>
-
-
-   <%= simple_form_for [@cocktail, @dose] do |f| %>
-    <% if @dose.errors.any? %>
-      <div class="errors-container">
-        <ul>
-          <% @dose.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-
-  <%= f.input :description %>
-  <%= f.input :ingredient_id, collection: @ingredients %>
-
-  <%= f.submit "Add a dose", class: "btn btn-primary" %>
-  <% end %>
-
-
 
 
   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Add an ingredient</button>
@@ -44,20 +26,29 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+
+           <%= simple_form_for [@cocktail, @dose] do |f| %>
+            <% if @dose.errors.any? %>
+              <div class="errors-container">
+                <ul>
+                  <% @dose.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
           <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Recipient:</label>
-            <input type="text" class="form-control" id="recipient-name">
+            <%= f.input :description, input_html: { class: 'form-control' } %>
           </div>
           <div class="form-group">
-            <label for="message-text" class="col-form-label">Message:</label>
-            <textarea class="form-control" id="message-text"></textarea>
+            <%= f.input :ingredient_id, collection: @ingredients, input_html: { class: 'form-control' } %>
           </div>
-        </form>
+
       </div>
       <div class="modal-footer">
+            <%= f.submit "Add a dose", class: "btn btn-primary" %>
+          <% end %>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send message</button>
       </div>
     </div>
   </div>
