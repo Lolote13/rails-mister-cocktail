@@ -1,6 +1,6 @@
 <div class="container">
   <h1><%= @cocktail.name.capitalize %></h1>
-
+  <%= cl_image_tag @cocktail.photo, height: 300, width: 400, crop: :fill %>
 
   <ul class="list-group">
     <% @cocktail.doses.each do |dose| %>
@@ -24,7 +24,7 @@
     <% end %>
 
   <%= f.input :description %>
-  <%= f.input :ingredient_id, collection: Ingredient::INGREDIENTS %>
+  <%= f.input :ingredient_id, collection: @ingredients %>
 
   <%= f.submit "Add a dose", class: "btn btn-primary" %>
   <% end %>
