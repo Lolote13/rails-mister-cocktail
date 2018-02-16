@@ -1,6 +1,7 @@
 <div class="container">
   <h1><%= @cocktail.name.capitalize %></h1>
   <% if !@cocktail[:photo].nil? %>
+
     <%= cl_image_tag @cocktail.photo, height: 300, width: 400, crop: :fill %>
   <% end %>
 
